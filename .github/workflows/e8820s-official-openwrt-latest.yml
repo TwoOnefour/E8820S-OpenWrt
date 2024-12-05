@@ -42,7 +42,7 @@ env:
   REPO_URL: https://github.com/openwrt/openwrt
   REPO_BRANCH: openwrt-24.10
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: config/e8820s-official.config
+  CONFIG_FILE: config/e8820s-official-openwrt-latest.config
   DIY_P1_SH: script/diy-part1.sh
   DIY_P2_SH: script/diy-part2.sh
   UPLOAD_BIN_DIR: true
