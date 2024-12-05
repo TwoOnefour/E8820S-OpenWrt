@@ -9,7 +9,7 @@
 #代码里有 name: 后面的内容随便改,冒号后面是有个空格的,如果修改固件名字就要考虑能不能显示出你想要的
 
 
-name: OpenWrt-E8820S 闭源固件
+name: E8820S 官方源码 openwrt-24.01
 
 on: 
   release:
