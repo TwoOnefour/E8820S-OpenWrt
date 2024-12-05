@@ -73,17 +73,20 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
+    
     - name: 下载固件源码
       working-directory: /workdir
       run: |
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+      
     - name: 加载Cache缓存
       uses: klever1988/cachewrtbuild@main
       with:
         ccache: 'true'
         prefix: ${{ github.workspace }}/openwrt
+      
     - name: 加载feeds跟自定义插件
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
@@ -96,12 +99,6 @@ jobs:
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
 
-    - name: 再次下载安装feeds
-      run: |
-        cd openwrt
-        ./scripts/feeds update -a
-        ./scripts/feeds install -a
-
     - name: 加载.config设置
       run: |
         [ -e files ] && mv files openwrt/files
@@ -109,12 +106,7 @@ jobs:
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
-    - name: SSH远程连接服务器配置固件
-      uses: P3TERX/ssh2actions@v1.0.0
-      if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
-      env:
-        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+
     - name: 下载软件包
       id: package
       run: |
@@ -123,6 +115,7 @@ jobs:
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
+        
     - name: 开始编译固件
       id: compile
       run: |
@@ -133,16 +126,10 @@ jobs:
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
         echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+        
     - name: 检查github储存空间情况
       if: (!cancelled())
       run: df -hT
-
-    - name: 上传bin文件夹(固件+ipk)在github空间
-      uses: actions/upload-artifact@main
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
-      with:
-        name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
-        path: openwrt/bin
 
     - name: 整理固件文件夹
       id: organize
@@ -153,55 +140,12 @@ jobs:
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
         
-    - name: 上传.config配置文件在github空间    
-      if: steps.organizer.outputs.status == 'success' && env.UPLOAD_CONFIG == 'true'
-      uses: actions/upload-artifact@main
-      with:
-        name: config.buildinfo_${{ env.FILE_DATE }}
-        path: ./config    
-    
     - name: 上传固件在github空间
       uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: E8820S开源固件
+        name: E8820S
         path: ${{ env.FIRMWARE }}
-
-    - name: 上传固件到奶牛快传
-      id: cowtransfer
-      if: steps.organize.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
-      run: |
-        curl -fsSL git.io/file-transfer | sh
-        ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
-        echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
-        echo "::set-output name=url::$(cat cowtransfer.log | grep https | cut -f3 -d" ")"
-    - name: 上传固件到WeTransfer
-      id: wetransfer
-      if: steps.organize.outputs.status == 'success' && env.UPLOAD_WETRANSFER == 'true' && !cancelled()
-      run: |
-        curl -fsSL git.io/file-transfer | sh
-        ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
-        echo "::warning file=wetransfer.com::$(cat wetransfer.log | grep https)"
-        echo "::set-output name=url::$(cat wetransfer.log | grep https | cut -f3 -d" ")"
-    - name: 创建 release tag
-      id: tag
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
-      run: |
-        echo "::set-output name=release_tag::$(date +"%Y.%m.%d-%H%M")"
-        touch release.txt
-        [ $UPLOAD_COWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
-        [ $UPLOAD_WETRANSFER = true ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
-        echo "::set-output name=status::success"
-
-    - name: 上传固件到release
-      uses: softprops/action-gh-release@v1
-      if: steps.tag.outputs.status == 'success' && !cancelled()
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ steps.tag.outputs.release_tag }}
-        body_path: release.txt
-        files: ${{ env.FIRMWARE }}/*
 
     - name: 移除旧文件
       uses: c-hive/gha-remove-artifacts@v1.2.0
