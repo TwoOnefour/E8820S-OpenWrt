@@ -51,7 +51,8 @@ env:
   UPLOAD_WETRANSFER: true
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
-
+  PATCH1: patch/0001-ZTE8820S.patch
+  
 jobs:
   build:
     name: 编译OpenWrt-lede固件
@@ -80,6 +81,9 @@ jobs:
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+
+    - name: 应用patch
+      run: cd openwrt && patch -p0001 < $PATCH1
       
     - name: 加载Cache缓存
       uses: klever1988/cachewrtbuild@main
