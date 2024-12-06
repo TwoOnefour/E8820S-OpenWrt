@@ -66,15 +66,12 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        curl -s https://raw.githubusercontent.com/immortalwrt/build-scripts/master/init_build_environment.sh | sudo bash
-        sudo apt-get install -y rename pigz libfuse-dev upx subversion clang
-        sudo apt-get autoremove -y --purge
-        sudo apt-get clean
-        sudo rm -rf po2lmo
+        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo -E apt-get -qq update
+        sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-2004)
+        sudo -E apt-get -qq autoremove --purge
+        sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
-        git config --global user.email ${{ github.actor }}@users.noreply.github.com
-        git config --global user.name ${{ github.actor }}
-        git config --global init.defaultBranch master
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
     
