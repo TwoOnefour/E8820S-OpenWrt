@@ -54,8 +54,8 @@ env:
 
 jobs:
   build:
-    name: 编译OpenWrt-lede固件
-    runs-on: ubuntu-20.04
+    name: 编译OpenWrt-lede开源固件
+    runs-on: ubuntu-22.04
 
     steps:
     - name: 准备结束
