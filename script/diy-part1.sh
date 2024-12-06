@@ -12,8 +12,9 @@
 
 # Uncomment a feed source
 sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
-echo "src-git smartdns https://github.com/pymumu/smartdns.git" >> feeds.conf.default
-echo "src-git lucismartdns https://github.com/pymumu/luci-app-smartdns.git" >> feeds.conf.default
+echo "src-git smartdns https://github.com/pymumu/smartdns.git;master" >> feeds.conf.default
+echo "src-git lucismartdns https://github.com/pymumu/luci-app-smartdns.git;master" >> feeds.conf.default
+
 # Add feed sources
 #sed -i '$a src-git lienol https://github.com/Lienol/openwrt-package' feeds.conf.default
 #sed -i '$a src-git diy https://github.com/CCnut/feed-netkeeper.git;LUCI-LUA-UCITRACK' feeds.conf.default
