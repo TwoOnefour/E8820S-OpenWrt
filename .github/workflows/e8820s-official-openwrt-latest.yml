@@ -83,7 +83,7 @@ jobs:
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: 应用patch
-      run: cd openwrt && patch -p0001 < $GITHUB_WORKSPACE/$PATCH1
+      run: cd /workdir/openwrt && patch -p0001 < $GITHUB_WORKSPACE/$PATCH1
       
     - name: 加载Cache缓存
       uses: klever1988/cachewrtbuild@main
