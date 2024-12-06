@@ -119,6 +119,8 @@ jobs:
       run: |
         cd openwrt
         make defconfig
+        make toolchain/clean
+        make toolchain/install
         make download -j$(nproc)
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
