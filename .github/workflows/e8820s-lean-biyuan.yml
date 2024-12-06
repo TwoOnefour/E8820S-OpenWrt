@@ -131,33 +131,17 @@ jobs:
       if: (!cancelled())
       run: df -hT
 
-    - name: 整理固件文件夹
+    - name: Organize files
       id: organize
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         cd openwrt/bin/targets/*/*
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
-        echo "::set-output name=status::success"
+        echo "status=success" >> $GITHUB_OUTPUT
         
-    - name: 上传固件在github空间
+    - name: Upload firmware directory
       uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: OpenWrt-E8820S 闭源固件
+        name: OpenWrt-E8820S-close-source
         path: ${{ env.FIRMWARE }}
-
-    - name: 移除旧文件
-      uses: c-hive/gha-remove-artifacts@v1.2.0
-      with:
-        age: '1 day'
-        skip-recent: 3
-
-    - name: 移除以前的Releases
-      uses: dev-drprasad/delete-older-releases@v0.1.0
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
-      with:
-        keep_latest: 3
-        delete_tags: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
