@@ -16,7 +16,8 @@ sed -i 's/192.168.1.1/192.168.123.1/g' package/base-files/files/bin/config_gener
 sed -i 's/OpenWrt/E8820S/g' package/base-files/files/bin/config_generate
 
 # 修改开源驱动wifi名称
-sed -i 's/OpenWrt/QAQ$/g' package/kernel/mac80211/files/lib/wifi/mac80211.sh
+sed -i 's/OpenWrt_2G/5202_genshin_impact/g' package/kernel/mac80211/files/lib/wifi/mac80211.sh
+sed -i 's/OpenWrt_5G/5202_5g/g' package/kernel/mac80211/files/lib/wifi/mac80211.sh
 
 # 修改闭源驱动2G wifi名称
 sed -i 's/OpenWrt_2G/QAQ/g' package/lean/mt/drivers/mt_wifi/files/mt7603.dat
