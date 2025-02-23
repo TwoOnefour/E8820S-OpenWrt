@@ -7,3 +7,6 @@
 - 开源和闭源wifi
 - passwall
 - smartdns
+- kmod-cryptodev (Cryptographic Hardware Accelerators)
+- kmod-crypto-aead
+- kmod-crypto-gcm
