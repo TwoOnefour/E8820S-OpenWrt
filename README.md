@@ -10,3 +10,4 @@
 - kmod-cryptodev (Cryptographic Hardware Accelerators)
 - kmod-crypto-aead
 - kmod-crypto-gcm
+- openssh-sftp-server
