@@ -9,7 +9,7 @@
 #代码里有 name: 后面的内容随便改,冒号后面是有个空格的,如果修改固件名字就要考虑能不能显示出你想要的
 
 
-name: E8820S 官方源码 openwrt-23.05
+name: E8820S 官方源码 openwrt-24.10
 
 on: 
   release:
@@ -40,7 +40,7 @@ on:
 
 env:
   REPO_URL: https://github.com/openwrt/openwrt
-  REPO_BRANCH: openwrt-23.05
+  REPO_BRANCH: openwrt-24.10
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: config/e8820s-official-openwrt-latest.config
   DIY_P1_SH: script/diy-part1.sh
@@ -55,7 +55,7 @@ env:
   
 jobs:
   build:
-    name: 编译E8820S 官方源码 openwrt-23.05
+    name: 编译E8820S 官方源码 openwrt-24.10
     runs-on: ubuntu-22.04
 
     steps:
@@ -155,5 +155,5 @@ jobs:
       uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: OpenWrt-E8820S-official-23.05
+        name: OpenWrt-E8820S-official-24.10
         path: ${{ env.FIRMWARE }}
