@@ -5,7 +5,7 @@
 - zerotier
 - usb
 - 开源和闭源wifi
-- passwall
+- passwall (shadowsocks-rust,ssr,ss,xray)
 - smartdns
 - kmod-cryptodev (Cryptographic Hardware Accelerators)
 - kmod-crypto-aead
