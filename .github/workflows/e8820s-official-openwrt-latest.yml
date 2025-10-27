@@ -100,9 +100,7 @@ jobs:
         chmod +x $DIY_P1_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
-        echo "src-git passwall https://github.com/xiaorouji/openwrt-passwall;main" >> feeds.conf.default
-        echo "src-git passwallpackages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> feeds.conf.default
-        
+
     - name: 下载feeds跟安装自定义插件
       run: cd openwrt && ./scripts/feeds update -a
 
