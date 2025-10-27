@@ -1,5 +1,5 @@
 # Description
-这是一个ZTE-E8820S自用固件仓库，官方源码采用23.05版本
+这是一个ZTE-E8820S自用固件仓库，官方源码采用23.05版本，由于24.10版本有奇怪的重启bug，请见[#issues/19164](https://github.com/openwrt/openwrt/issues/19164)
 
 配置为
 - zerotier
