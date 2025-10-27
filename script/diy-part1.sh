@@ -14,6 +14,8 @@
 sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
 echo "src-git smartdns https://github.com/pymumu/smartdns.git;master" >> feeds.conf.default
 echo "src-git lucismartdns https://github.com/pymumu/luci-app-smartdns.git;master" >> feeds.conf.default
+echo "src-git passwall https://github.com/xiaorouji/openwrt-passwall;main" >> feeds.conf.default
+echo "src-git passwallpackages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> feeds.conf.default
 
 # Add feed sources
 #sed -i '$a src-git lienol https://github.com/Lienol/openwrt-package' feeds.conf.default
