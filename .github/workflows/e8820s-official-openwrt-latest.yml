@@ -64,6 +64,24 @@ jobs:
     - name: 准备结束
       uses: actions/checkout@main
 
+    - name: Free Up Disk Space
+      run: |
+          echo "Initial disk space:"
+          df -hT
+          
+          # 删除大型预装软件
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf "/usr/local/share/boost"
+
+          # 如果有 swap 文件，也可以清理
+          sudo swapoff -a
+          sudo rm -f /mnt/swapfile
+          
+          echo "Disk space after cleanup:"
+          df -hT
+
     - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
