@@ -8,6 +8,8 @@
 #修改以下代码或者开启触发开关都好，要严格按格式对好,前面有多少空格也要看清楚
 #代码里有 name: 后面的内容随便改,冒号后面是有个空格的,如果修改固件名字就要考虑能不能显示出你想要的
 
+permissions:
+  contents: write
 
 name: E8820S 官方源码 openwrt-23.05
 
@@ -158,13 +160,10 @@ jobs:
     
     - name: Publish firmware *.bin to Release
       uses: softprops/action-gh-release@v2
-      if: steps.organize.outputs.status == 'success' && !cancelled()
+      if: steps.tag.outputs.status == 'success' && !cancelled()
       env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: OpenWrt-23.05-${{ github.run_number }}
-        name: OpenWrt-E8820S-official-23.05
-        generate_release_notes: true
-        make_latest: true
-        files: |
-          ${{ env.FIRMWARE }}/targets/*/*/*.bin
+        body_path: release.txt
+        files: ${{ env.FIRMWARE }}/targets/*/*/*.bin
