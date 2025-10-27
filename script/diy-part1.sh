@@ -12,7 +12,7 @@
 
 # Uncomment a feed source
 sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
-echo "src-git smartdns https://github.com/pymumu/smartdns.git;master" >> feeds.conf.default
+echo "src-git smartdns https://github.com/pymumu/openwrt-smartdns;master" >> feeds.conf.default
 echo "src-git lucismartdns https://github.com/pymumu/luci-app-smartdns.git;master" >> feeds.conf.default
 echo "src-git passwall https://github.com/xiaorouji/openwrt-passwall;main" >> feeds.conf.default
 echo "src-git passwallpackages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> feeds.conf.default
