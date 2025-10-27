@@ -21,27 +21,31 @@ if ! id -u "${BUILD_USER}" >/dev/null 2>&1; then
 fi
 
 # ========= 3) 以 builder 身份执行后续所有编译相关步骤 =========
-sudo -u "${BUILD_USER}" -H bash -lc "
+command -v screen >/dev/null 2>&1 || { apt-get update && apt-get install -y screen; }
+
+# 启动名为 openwrt_build 的后台会话，并将日志写入 /var/log/screen.log
+screen -dmS openwrt_build -L -Logfile /var/log/screen.log \
+sudo -u "${BUILD_USER}" -H bash -lc '
   set -euo pipefail
-  echo '=== 切换到 ${BUILD_USER}，开始准备源码 ==='
+  echo "=== 切换到 ${BUILD_USER}，开始准备源码 ==="
   cd ~
   # 3.1 克隆源码（若目录已存在则跳过克隆）
   if [ ! -d openwrt ]; then
-    git clone '${REPO_URL}' -b '${OPENWRT_BRANCH}' openwrt
+    git clone "${REPO_URL}" -b "${OPENWRT_BRANCH}" openwrt
   fi
 
   # 3.2 放置配置、执行自定义脚本与补丁（使用绝对路径访问原脚本所在目录）
-  cp '${BASE_DIR}/config/e8820s-official-openwrt-latest.config' ~/openwrt/.config
+  cp "${BASE_DIR}/config/e8820s-official-openwrt-latest.config" ~/openwrt/.config
 
   cd ~/openwrt
 
-  chmod a+x '${BASE_DIR}/script/diy-part1.sh'
-  chmod a+x '${BASE_DIR}/script/diy-part2.sh'
-  '${BASE_DIR}/script/diy-part1.sh'
-  '${BASE_DIR}/script/diy-part2.sh'
+  chmod a+x "${BASE_DIR}/script/diy-part1.sh"
+  chmod a+x "${BASE_DIR}/script/diy-part2.sh"
+  "${BASE_DIR}/script/diy-part1.sh"
+  "${BASE_DIR}/script/diy-part2.sh"
 
   # 提醒：你的命令里用的是 -p0001（等价于 -p1）
-  patch -p1 < '${BASE_DIR}/patch/0001-ZTE8820S.patch'
+  patch -p1 < "${BASE_DIR}/patch/0001-ZTE8820S.patch"
 
   # 3.3 feeds
   ./scripts/feeds clean
@@ -50,14 +54,14 @@ sudo -u "${BUILD_USER}" -H bash -lc "
 
   # 3.4 配置与下载源码包
   make defconfig
-  make download -j'${JOBS}'
-  find dl -size -1024c -exec ls -l {} \\;
-  find dl -size -1024c -exec rm -f {} \\;
+  make download -j"${JOBS}"
+  find dl -size -1024c -exec ls -l {} \;
+  find dl -size -1024c -exec rm -f {} \;
 
   # 3.5 编译（先 toolchain，再全编）
   make toolchain/clean
-  make toolchain/install -j'${JOBS}' || make toolchain/install -j1 V=sc
-  make -j'${JOBS}' || make -j1 || make -j1 V=s
-"
+  make toolchain/install -j"${JOBS}" || make toolchain/install -j1 V=sc
+  make -j"${JOBS}" || make -j1 || make -j1 V=s
+'
 
 echo "=== 全部步骤完成（编译在 builder 用户下完成）==="
