@@ -21,5 +21,5 @@ find dl -size -1024c -exec ls -l {} \;
 find dl -size -1024c -exec rm -f {} \;
 
 make toolchain/clean
-make toolchain/install || make toolchain/install -j1 V=sc
+make toolchain/install -j$(nproc) || make toolchain/install -j1 V=sc
 make -j$(nproc) || make -j1 || make -j1 V=s
