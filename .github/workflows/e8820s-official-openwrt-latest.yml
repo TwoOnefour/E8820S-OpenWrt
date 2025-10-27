@@ -164,7 +164,6 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
-        # 如果你是用 tag 触发工作流，可删掉 tag_name，自动用当前 tag。
         tag_name: OpenWrt-23.05-${{ github.run_number }}
         name: OpenWrt-E8820S-official-23.05
         generate_release_notes: true
