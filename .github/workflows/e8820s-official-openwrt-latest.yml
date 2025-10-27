@@ -157,7 +157,7 @@ jobs:
       uses: actions/upload-artifact@v4
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: OpenWrt-E8820S-official-24.10
+        name: OpenWrt-E8820S-official-23.05
         path: ${{ env.FIRMWARE }}
     
     - name: Publish firmware *.bin to Release
