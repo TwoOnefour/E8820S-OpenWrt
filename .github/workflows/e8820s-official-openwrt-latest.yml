@@ -10,7 +10,7 @@
 
 permissions:
   contents: write
-
+  actions: write
 name: E8820S 官方源码 openwrt-23.05
 
 on: 
