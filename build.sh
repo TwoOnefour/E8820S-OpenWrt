@@ -15,6 +15,10 @@ chmod a+x ../script/diy-part2.sh
 ../script/diy-part1.sh
 ../script/diy-part2.sh
 patch -p0001 < ../patch/0001-ZTE8820S.patch
+./scripts/feeds clean
+./scripts/feeds update -a
+./scripts/feeds install -a
+
 make defconfig
 make download -j$(nproc)
 find dl -size -1024c -exec ls -l {} \;
