@@ -11,3 +11,5 @@
 - kmod-crypto-aead
 - kmod-crypto-gcm
 - openssh-sftp-server
+
+<img width="1444" height="877" alt="image" src="https://github.com/user-attachments/assets/7a80c0c8-303b-49cf-a001-952f426b76ee" />
