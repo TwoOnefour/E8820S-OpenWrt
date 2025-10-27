@@ -162,7 +162,7 @@ jobs:
       uses: softprops/action-gh-release@v2
       if: steps.organize.outputs.status == 'success' && !cancelled()
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
         # 如果你是用 tag 触发工作流，可删掉 tag_name，自动用当前 tag。
         tag_name: OpenWrt-23.05-${{ github.run_number }}
