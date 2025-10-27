@@ -23,7 +23,6 @@ fi
 # ========= 3) 以 builder 身份执行后续所有编译相关步骤 =========
 sudo -u "${BUILD_USER}" -H bash -lc "
   set -euo pipefail
-
   echo '=== 切换到 ${BUILD_USER}，开始准备源码 ==='
   cd ~
   # 3.1 克隆源码（若目录已存在则跳过克隆）
