@@ -4,12 +4,11 @@
 配置为
 - zerotier
 - usb
-- 开源和闭源wifi
+- mt762x wifi
 - passwall (shadowsocks-rust,ssr,ss,xray)
 - smartdns
-- kmod-cryptodev (Cryptographic Hardware Accelerators)
-- kmod-crypto-aead
-- kmod-crypto-gcm
+- kmod-cryptodev (Cryptographic Hardware Accelerators in user level)
+- kmod-crypto-* (frequenctly used crypto kmod)
 - openssh-sftp-server
 
 <img width="1444" height="877" alt="image" src="https://github.com/user-attachments/assets/7a80c0c8-303b-49cf-a001-952f426b76ee" />
