@@ -64,6 +64,16 @@ jobs:
     - name: 准备结束
       uses: actions/checkout@main
 
+    - name: Clean up previous failed workflow runs
+      uses: mattvr/delete-workflow-runs@v2
+      with: 
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          retain_days: 0            # 不按天数保留，改为按次数保留
+          keep_minimum_runs: 3      # 至少保留最近的 3 次运行记录
+          delete_workflow_pattern: "" # 留空代表只删除当前 workflow 的记录
+          delete_run_by_conclusion_pattern: "failure,cancelled,skipped,timed_out" # 删除这些状态的记录
+
     - name: Free Up Disk Space
       run: |
           echo "Initial disk space:"
