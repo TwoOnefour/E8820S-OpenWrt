@@ -131,7 +131,7 @@ jobs:
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
-        make toolchain/clean
+        # make toolchain/clean
         # make toolchain/install || make toolchain/install -j1 V=sc
         # make -j$(nproc) || make -j1 || make -j1 V=s
         # make toolchain/install -j$(nproc)
