@@ -38,6 +38,9 @@ sudo --preserve-env=JOBS,BASE_DIR,OPENWRT_BRANCH,REPO_URL,BUILD_USER \
   
   echo "=== 切换到 ${BUILD_USER}，开始准备源码 ==="
   cd ~
+  if [ ! -d E8820S-Openwrt ]; then
+    git clone "${REPO_URL}" -b "${OPENWRT_BRANCH}" openwrt
+  fi
   git clone https://github.com/TwoOnefour/E8820S-OpenWrt
   cd E8820S-OpenWrt
   BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
