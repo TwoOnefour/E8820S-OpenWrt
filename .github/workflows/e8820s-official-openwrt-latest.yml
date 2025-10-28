@@ -52,7 +52,7 @@ env:
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
   PATCH1: patch/0001-ZTE8820S.patch
-  
+  PATCH2: patch/0002-ramips-add-support-for-mtk-eip93-crypto-engine.patch
 jobs:
   build:
     name: 编译E8820S 官方源码 openwrt-23.05
@@ -107,7 +107,8 @@ jobs:
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: 应用patch
-      run: cd /workdir/openwrt && patch -p0001 < $GITHUB_WORKSPACE/$PATCH1
+      run: |
+        cd /workdir/openwrt && patch -p0001 < $GITHUB_WORKSPACE/$PATCH1 && patch -p0001 < $GITHUB_WORKSPACE/$PATCH2
       
     - name: 加载Cache缓存
       uses: klever1988/cachewrtbuild@main
