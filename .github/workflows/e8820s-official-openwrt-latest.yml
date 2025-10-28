@@ -62,14 +62,14 @@ jobs:
     - name: 准备结束
       uses: actions/checkout@main
 
-    #- name: Clean up previous failed workflow runs
-      #uses: mattraks/delete-workflow-runs@v2
-      #with: 
-          #token: ${{ secrets.GITHUB_TOKEN }}
-          #repository: ${{ github.repository }}
-          #retain_days: 0 
-          #keep_minimum_runs: 0      
-          #delete_run_by_conclusion_pattern: "failure,cancelled,skipped,timed_out" # 删除这些状态的记录
+    - name: Clean up previous failed workflow runs
+      uses: mattraks/delete-workflow-runs@v2
+      with: 
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          retain_days: 0 
+          keep_minimum_runs: 0      
+          delete_run_by_conclusion_pattern: "failure,cancelled,skipped,timed_out" # 删除这些状态的记录
 
     - name: Maximize build space
       uses: AdityaGarg8/remove-unwanted-software@v5
@@ -80,7 +80,7 @@ jobs:
          remove-codeql: 'true'          # ~5.4 GB
          remove-docker-images: 'true'   # ~3.2 GB
          remove-large-packages: 'true'  # ~3.1 GB
-         remove-cached-tools: 'true'    # ~8.3 GB
+         # remove-cached-tools: 'true'    # ~8.3 GB
          remove-swapfile: 'true'        # ~4 GB 
 
     - name: Initialization environment
