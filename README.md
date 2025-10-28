@@ -7,6 +7,7 @@
 - mt762x wifi
 - passwall (shadowsocks-rust,ssr,ss,xray)
 - smartdns
+- eip93
 - kmod-cryptodev (Cryptographic Hardware Accelerators in user level)
 - kmod-crypto-* (frequenctly used crypto kmod)
 - openssh-sftp-server
