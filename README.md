@@ -3,6 +3,18 @@
 
 **但其实openwrt-23.05甚至老毛子或者immortalwrt，我也遇到过很多次断电后重启以后丢wifi的情况，感觉是openwrt固件写的有问题**
 
+## 固件软件包
+配置为
+- zerotier
+- usb
+- mt76xx wifi
+- passwall (shadowsocks-rust,ssr,ss,xray)
+- smartdns
+- eip93 (硬件加速）
+- kmod-cryptodev (Cryptographic Hardware Accelerators in user level)
+- kmod-crypto-* (frequenctly used crypto kmod)
+- openssh-sftp-server
+
 ## 跑分（单位为MiB/s)
 
 ### 纯软件跑分
@@ -35,16 +47,5 @@
 
 若跑专线，建议使用纯ChaCha20或者ctr，否则用reality
 
-## 固件软件包
-配置为
-- zerotier
-- usb
-- mt76xx wifi
-- passwall (shadowsocks-rust,ssr,ss,xray)
-- smartdns
-- eip93 (硬件加速）
-- kmod-cryptodev (Cryptographic Hardware Accelerators in user level)
-- kmod-crypto-* (frequenctly used crypto kmod)
-- openssh-sftp-server
 ## 预览
 <img width="1444" height="877" alt="image" src="https://github.com/user-attachments/assets/7a80c0c8-303b-49cf-a001-952f426b76ee" />
