@@ -3,7 +3,6 @@ set -euo pipefail
 
 # ========= 0) 基础设置 =========
 JOBS="$(nproc)"
-BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
 OPENWRT_BRANCH="openwrt-23.05"
 REPO_URL="https://github.com/openwrt/openwrt"
 BUILD_USER="builder"
@@ -33,14 +32,15 @@ sudo --preserve-env=JOBS,BASE_DIR,OPENWRT_BRANCH,REPO_URL,BUILD_USER \
   set -euo pipefail
   # 必要性检查（如果没传进来会直接报错，便于定位）
   : "${JOBS:?JOBS not set}"
-  : "${BASE_DIR:?BASE_DIR not set}"
   : "${OPENWRT_BRANCH:?OPENWRT_BRANCH not set}"
   : "${REPO_URL:?REPO_URL not set}"
   : "${BUILD_USER:?BUILD_USER not set}"
-
+  
   echo "=== 切换到 ${BUILD_USER}，开始准备源码 ==="
   cd ~
-
+  git clone https://github.com/TwoOnefour/E8820S-OpenWrt
+  cd E8820S-Openwrt
+  BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
   # 3.1 克隆源码
   if [ ! -d openwrt ]; then
     git clone "${REPO_URL}" -b "${OPENWRT_BRANCH}" openwrt
