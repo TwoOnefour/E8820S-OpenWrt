@@ -73,23 +73,17 @@ jobs:
           #keep_minimum_runs: 0      
           #delete_run_by_conclusion_pattern: "failure,cancelled,skipped,timed_out" # 删除这些状态的记录
 
-    - name: Free Up Disk Space
-      run: |
-          echo "Initial disk space:"
-          df -hT
-          
-          # 删除大型预装软件
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /usr/local/lib/android
-          sudo rm -rf /opt/ghc
-          sudo rm -rf "/usr/local/share/boost"
-
-          # 如果有 swap 文件，也可以清理
-          sudo swapoff -a
-          sudo rm -f /mnt/swapfile
-          
-          echo "Disk space after cleanup:"
-          df -hT
+    - name: Maximize build space
+      uses: AdityaGarg8/remove-unwanted-software@v5
+      with:
+         remove-android: 'true'         # ~9 GB
+         remove-dotnet: 'true'          # ~2 GB
+         remove-haskell: 'true'         # ~5.2 GB
+         remove-codeql: 'true'          # ~5.4 GB
+         remove-docker-images: 'true'   # ~3.2 GB
+         remove-large-packages: 'true'  # ~3.1 GB
+         remove-cached-tools: 'true'    # ~8.3 GB
+         remove-swapfile: 'true'        # ~4 GB 
 
     - name: Initialization environment
       env:
