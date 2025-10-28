@@ -14,7 +14,7 @@ export JOBS BASE_DIR OPENWRT_BRANCH REPO_URL BUILD_USER
 sudo apt update
 sudo apt install -y build-essential clang flex bison g++ gawk \
   gcc-multilib g++-multilib gettext git libncurses5-dev libssl-dev \
-  python3-setuptools rsync swig unzip zlib1g-dev file wget screen
+  python3-setuptools rsync swig unzip zlib1g-dev file wget screen -y
 
 # ========= 2) 确保存在 builder 用户 =========
 if ! id -u "${BUILD_USER}" >/dev/null 2>&1; then
