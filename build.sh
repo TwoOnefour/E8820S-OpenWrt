@@ -48,10 +48,10 @@ sudo --preserve-env=JOBS,BASE_DIR,OPENWRT_BRANCH,REPO_URL,BUILD_USER \
   if [ ! -d openwrt ]; then
     git clone "${REPO_URL}" -b "${OPENWRT_BRANCH}" openwrt
   fi
-
+  
   # 3.2 配置/脚本/补丁
-  cp "${BASE_DIR}/config/e8820s-official-openwrt-latest.config" ~/openwrt/.config
-  cd ~/openwrt
+  cp "${BASE_DIR}/config/e8820s-official-openwrt-latest.config" openwrt/.config
+  cd openwrt
   chmod a+x "${BASE_DIR}/script/diy-part1.sh" "${BASE_DIR}/script/diy-part2.sh"
   "${BASE_DIR}/script/diy-part1.sh"
   "${BASE_DIR}/script/diy-part2.sh"
@@ -67,11 +67,7 @@ sudo --preserve-env=JOBS,BASE_DIR,OPENWRT_BRANCH,REPO_URL,BUILD_USER \
   make download -j"${JOBS}"
   find dl -size -1024c -exec ls -l {} \;
   find dl -size -1024c -exec rm -f {} \;
-
-  # 3.5 编译
-  make toolchain/clean
-  make toolchain/install -j"${JOBS}" || make toolchain/install -j1 V=sc
-  make -j"${JOBS}" || make -j1 || make -j1 V=s
+  make -j"${JOBS}" || make -j1 V=s
 '
 
 echo "=== 全部步骤已启动（screen 会话：openwrt_build，日志：/var/log/screen.log）==="
