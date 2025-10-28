@@ -50,7 +50,7 @@ sudo --preserve-env=JOBS,BASE_DIR,OPENWRT_BRANCH,REPO_URL,BUILD_USER \
   fi
   
   # 3.2 配置/脚本/补丁
-  cp "${BASE_DIR}/config/e8820s-official-openwrt-latest.config" openwrt/.config
+  cp "${BASE_DIR}/config/e8820s-official-openwrt.config" openwrt/.config
   cd openwrt
   chmod a+x "${BASE_DIR}/script/diy-part1.sh" "${BASE_DIR}/script/diy-part2.sh"
   "${BASE_DIR}/script/diy-part1.sh"
